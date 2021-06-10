@@ -6,7 +6,6 @@ from rest_framework import status
 
 # Django
 from .models import CSVModel
-from api.models import DataModel
 from .serializers import CSVSerializer
 
 # Python
@@ -26,8 +25,6 @@ class CSVView(APIView):
         start = time.time()
         serializer = CSVSerializer(data=request.data)
         if serializer.is_valid():
-            # All data objects will be deleted before load data from CSV
-            queryset = DataModel.objects.all().delete()
             # CSV data will be downloaded and set into our DataModel structure
             csv_url = serializer.validated_data["url"]
             csv_data = pd.read_csv(csv_url, index_col=False)
